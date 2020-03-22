@@ -1,6 +1,7 @@
 #Explore COVID-19 cases around the world
 library(tidyverse)
 library(gghighlight)
+library(scales)
 
 #Mapping US only curve
 COVID <- as_tibble(COVID)
@@ -35,8 +36,7 @@ for(i in 1:length(ID100)){
 }
 
 #Plot COVID-19 case total by country starting at 100 cases
-ggplot(data = normalizedDate, mapping = aes(x = timeSince, y = totalCases, group = GeoId, color = GeoId)) + geom_line() + gghighlight(GeoId == c('US', 'ES', 'IT')) + xlim(0, 30)
-
+ggplot(data = normalizedDate, mapping = aes(x = timeSince, y = totalCases, group = GeoId, color = GeoId)) + geom_line() + gghighlight(GeoId == c('US', 'ES', 'IT')) + scale_y_log10(breaks = c(100, 1000, 10000, 100000)) + xlim(0, 30) + annotation_logticks(sides="l") + xlim(0, 30) + theme_bw()
 
 
 
