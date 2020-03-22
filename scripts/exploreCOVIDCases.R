@@ -2,6 +2,7 @@
 library(tidyverse)
 library(gghighlight)
 library(scales)
+library(here)
 
 #Mapping US only curve
 COVID <- as_tibble(COVID)
@@ -9,7 +10,7 @@ USA <- COVID %>% filter(Countries == 'United_States_of_America') %>% arrange(Dat
 ggplot(data = USA, mapping = aes(x = DateRep, y = cumsum(Cases))) + geom_line()
 
 #Generate cumulative case sum datset
-maxID <- unique(COVID$GeoId)
+ID <- unique(COVID$GeoId)
 caseSum <- data.frame()
 
 for(i in 1:length(ID)){
@@ -37,6 +38,6 @@ for(i in 1:length(ID100)){
 
 #Plot COVID-19 case total by country starting at 100 cases
 ggplot(data = normalizedDate, mapping = aes(x = timeSince, y = totalCases, group = GeoId, color = GeoId)) + geom_line() + gghighlight(GeoId == c('US', 'ES', 'IT')) + scale_y_log10(breaks = c(100, 1000, 10000, 100000)) + xlim(0, 30) + annotation_logticks(sides="l") + xlim(0, 30) + theme_bw()
-
+ggsave(here("figures", "20200321CasePlot.png"))
 
 
