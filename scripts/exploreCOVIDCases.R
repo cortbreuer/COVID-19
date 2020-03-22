@@ -8,7 +8,7 @@ USA <- COVID %>% filter(Countries == 'United_States_of_America') %>% arrange(Dat
 ggplot(data = USA, mapping = aes(x = DateRep, y = cumsum(Cases))) + geom_line()
 
 #Generate cumulative case sum datset
-ID <- unique(COVID$GeoId)
+maxID <- unique(COVID$GeoId)
 caseSum <- data.frame()
 
 for(i in 1:length(ID)){
@@ -25,8 +25,18 @@ ggplot(data = recentCaseSum, mapping = aes(x = DateRep, y = totalCases, group = 
 
 #Normalize curve start dates
 post100 <- filter(caseSum, totalCases >= 100)
+ID100 <- unique(post100$GeoId)
+normalizedDate <- data.frame()
 
-for(i in 1:length(ID)){
-  temp100 <- COVID %>% filter(GeoId == ID[i]) %>% arrange(DateRep)
-  temp100[, timeSince] <- 
+for(i in 1:length(ID100)){
+  temp100 <- filter(post100, GeoId == ID100[i]) %>% arrange(DateRep)
+  temp100[, "timeSince"] <- difftime(temp100$DateRep, temp100$DateRep[1], units = "days")
+  normalizedDate <- rbind(normalizedDate, temp100)
 }
+
+#Plot COVID-19 case total by country starting at 100 cases
+ggplot(data = normalizedDate, mapping = aes(x = timeSince, y = totalCases, group = GeoId, color = GeoId)) + geom_line() + gghighlight(GeoId == c('US', 'ES', 'IT')) + xlim(0, 30)
+
+
+
+
