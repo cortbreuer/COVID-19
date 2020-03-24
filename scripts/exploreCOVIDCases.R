@@ -42,7 +42,7 @@ for(i in 1:length(ID100)){
 ggplot(data = normalizedDate, mapping = aes(x = timeSince, y = totalCases, group = GeoId, color = GeoId)) + 
   geom_line() + geom_point() + gghighlight(GeoId == c('US', 'ES', 'IT')) + scale_y_log10(breaks = c(100, 1000, 10000, 100000)) + 
   xlim(0, 30) + annotation_logticks(sides="l") + xlim(0, 30) + theme_bw()
-ggsave(here("figures", "20200321CasePlot.png"))
+ggsave(here("figures", "2020-03-21_CasePlot.png"))
 
 #Generate constant growth vectors
 day <- seq(0, 20, 1)

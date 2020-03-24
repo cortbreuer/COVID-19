@@ -11,3 +11,4 @@ GET(url, authenticate(":", ":", type="ntlm"), write_disk(tf <- tempfile(fileext 
 #read the dataset sheet into R
 COVID <- read_excel(tf)
 names(COVID)[names(COVID) == 'Countries and territories'] <- 'Countries'
+
