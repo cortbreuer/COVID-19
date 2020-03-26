@@ -4,6 +4,7 @@ library(gghighlight)
 library(scales)
 library(here)
 
+source(here("scripts", "getCases.R"))
 COVID <- as_tibble(COVID)
 
 #Plot COVID-19 deaths day-by-day

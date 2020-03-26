@@ -5,10 +5,11 @@ library(scales)
 library(here)
 library(ggsci)
 
+source(here("scripts", "getCases.R"))
 COVID <- as_tibble(COVID)
 
 #Limit dataset to 6 countries, mutate to get total case data
-limitedCOVID <- filter(COVID, (GeoId %in% c('IT', 'ES', 'KR', 'US', 'FR', 'DE')) & (Month == c(2, 3)))
+limitedCOVID <- filter(COVID, GeoId %in% c('IT', 'ES', 'KR', 'US', 'FR', 'DE'))
 
 limitedCOVID <- mutate(limitedCOVID, Count = "daily")
 
@@ -40,8 +41,8 @@ limitedCOVIDTotal <- ggplot(data = filter(limitedCOVID, Count == "total"), mappi
   theme_bw() + 
   xlab("")
 
-ggsave(plot = limitedCOVIDDaily, here("figures", "2020-03-23_Limited-Facet_Daily-Cases.png"), width = 10, height = 6)
-ggsave(plot = limitedCOVIDTotal, here("figures", "2020-03-23_Limited-Facet_Case-Total.png"), width = 10, height = 6)
+ggsave(plot = limitedCOVIDDaily, here("figures", "2020-03-26_Limited-Facet_Daily-Cases.png"), width = 10, height = 6)
+ggsave(plot = limitedCOVIDTotal, here("figures", "2020-03-26_Limited-Facet_Case-Total.png"), width = 10, height = 6)
 
 #Mutate dataset to get total case data
 lateCOVID <- COVID
@@ -104,7 +105,7 @@ facetNormalizedCOVIDDaily <- ggplot(data = filter(normalizedLateCOVID, Count == 
   theme_bw() + 
   xlab("Days Since First Case")
 
-ggsave(plot = facetNormalizedCOVIDDaily, here("figures", "2020-03-23_Facet_Daily-Cases.png"), width = 10, height = 7)
+ggsave(plot = facetNormalizedCOVIDDaily, here("figures", "2020-03-26_Facet_Daily-Cases.png"), width = 10, height = 7)
 
 #Select for common start case number
 lateCOVID100 <- filter(normalizedLateCOVID, Cases >= 100)
@@ -124,7 +125,7 @@ facetNormalizedCOVIDTotal_lin <- ggplot(data = filter(normalizedLateCOVID100, Co
   geom_line(show.legend = FALSE) +
   facet_wrap(. ~ Countries) + 
   theme_bw() + 
-  xlim(0, 22) +
+  xlim(0, 30) +
   xlab("")
 
 facetNormalizedCOVIDTotal_exp <- ggplot(data = filter(normalizedLateCOVID100, Count == "total"), mapping = aes(x = timeSince, y = Cases, color = Countries, group = GeoId)) + 
@@ -133,12 +134,12 @@ facetNormalizedCOVIDTotal_exp <- ggplot(data = filter(normalizedLateCOVID100, Co
   scale_y_log10(breaks = c(100, 1000, 10000, 100000), limits = c(100, 100000)) + 
   annotation_logticks(sides="l") + 
   facet_wrap(. ~ Countries) + 
-  xlim(0, 22) +
+  xlim(0, 30) +
   theme_bw() + 
   xlab("Days Since 100th Case")
 
-ggsave(plot = facetNormalizedCOVIDTotal_lin, here("figures", "2020-03-23_Facet-Lin_Case-Total.png"), width = 10, height = 7)
-ggsave(plot = facetNormalizedCOVIDTotal_exp, here("figures", "2020-03-23_Facet-Exp_Case-Total.png"), width = 10, height = 7)
+ggsave(plot = facetNormalizedCOVIDTotal_lin, here("figures", "2020-03-26_Facet-Lin_Case-Total.png"), width = 10, height = 7)
+ggsave(plot = facetNormalizedCOVIDTotal_exp, here("figures", "2020-03-26_Facet-Exp_Case-Total.png"), width = 10, height = 7)
 
 
 
