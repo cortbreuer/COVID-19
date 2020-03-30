@@ -49,10 +49,11 @@ COVID <- filter(COVID, totalCases >= 10, totalDeaths >= 10)
 loglogCasePlot <- ggplot(data = COVID) + 
   geom_point(mapping = aes(x = totalCases, y = dailyCases, color = geoId)) +
   geom_line(mapping = aes(x = totalCases, y = dailyCases, color = geoId)) + 
-  scale_y_log10(limits = c(10, 10000)) + 
-  scale_x_log10(limits = c(10, 100000)) + 
+  scale_y_log10(limits = c(10, 20000)) + 
+  scale_x_log10(limits = c(10, 150000)) + 
   annotation_logticks(sides="lb") + 
-  transition_reveal(dateRep)
+  transition_reveal(dateRep) + 
+  theme_bw()
 
 animate(loglogCasePlot, renderer = gifski_renderer(loop = F), end_pause = 60, width = 800, height = 600)
 anim_save("../figures/loglogCasePlot.gif")
@@ -63,7 +64,8 @@ loglogDeathPlot <- ggplot(data = COVID) +
   scale_y_log10(limits = c(10, 1000)) + 
   scale_x_log10(limits = c(10, 10000)) + 
   annotation_logticks(sides="lb") + 
-  transition_reveal(dateRep)
+  transition_reveal(dateRep) + 
+  theme_bw()
 
 animate(loglogDeathPlot, renderer = gifski_renderer(loop = F), end_pause = 60, width = 800, height = 600)
 anim_save("../figures/loglogDeathPlot.gif", width = 8, height = 8)
